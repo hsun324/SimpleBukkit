@@ -3,9 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.hsun324.simplebukkit</groupId>
-  <artifactId>SimpleBukkit</artifactId>
+  <artifactId>main</artifactId>
   <version>1.2</version>
-  <packaging>pom</packaging>
 
   <name>SimpleBukkit</name>
 
@@ -45,8 +44,18 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-  <modules>
-  	<module>main</module>
-  	<module>distribution</module>
-  </modules>
+  
+  <build>
+    <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+    <resources>
+      <resource>
+        <targetPath>.</targetPath>
+        <filtering>true</filtering>
+        <directory>${basedir}/src/main/resources/</directory>
+        <includes>
+          <include>plugin.yml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 </project>

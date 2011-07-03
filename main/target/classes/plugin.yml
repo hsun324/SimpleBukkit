@@ -1,0 +1,7 @@
+name: SimpleBukkit
+main: com.hsun324.simplebukkit.SimpleBukkitPlugin
+version: "2011.0514"
+authors:
+- hsun324
+description: Simple Bukkit API
+commands:
