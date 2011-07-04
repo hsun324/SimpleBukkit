@@ -11,7 +11,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.hsun324.simplebukkit.bindings.EventBindings;
-import com.hsun324.simplebukkit.bindings.event.CommandCaptureEvent;
 import com.hsun324.simplebukkit.permissions.PermissionsHandler;
 
 public class SimpleBukkitPlugin extends JavaPlugin
@@ -49,7 +48,6 @@ public class SimpleBukkitPlugin extends JavaPlugin
 		
 		for(Priority priority : Priority.values())
 			EventBindings.getInstance().createListeners(this, getServer().getPluginManager(), priority);
-		EventBindings.getInstance().addEventClass(CommandCaptureEvent.class);
 		
 		PermissionsHandler.getInstance().loadPermissions();
 		

@@ -114,6 +114,9 @@ public final class BukkitUtils
 	        	dropItem(blockLocation, Material.SEEDS);
 	    }
 	    else if (type == Material.DEAD_BUSH) { }
+	    else if (type == Material.DEAD_BUSH) { }
+	    else if (type == Material.DEAD_BUSH) { }
+	    else if (type == Material.DEAD_BUSH) { }
 	    else if (type != Material.AIR)
 	        dropItem(blockLocation, type, 1, (byte) data);
 	}
@@ -290,7 +293,11 @@ public final class BukkitUtils
 		   type == Material.WEB || 
 		   type == Material.LONG_GRASS || 
 		   type == Material.DIODE_BLOCK_OFF || 
-		   type == Material.DIODE_BLOCK_ON)
+		   type == Material.DIODE_BLOCK_ON || 
+		   type == Material.PISTON_BASE || 
+		   type == Material.PISTON_STICKY_BASE || 
+		   type == Material.PISTON_EXTENSION || 
+		   type == Material.PISTON_MOVING_PIECE)
 			return true;
 		return false;
 	}

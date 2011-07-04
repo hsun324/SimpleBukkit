@@ -1,0 +1,9 @@
+CHANGELOG
+
+version 1.3:
+   + Plugin.onCommand call for command handling.
+   + Quotes and Single-Quotes will now allow for arguments with spaces.
+   + Backslashes will now prevent quotes from terminating an argument.
+   * Flags not being rejected correctly.
+   * Does not rely on CraftBukkit any longer. You can now use just Bukkit.
+   - Automatic Command Capturing

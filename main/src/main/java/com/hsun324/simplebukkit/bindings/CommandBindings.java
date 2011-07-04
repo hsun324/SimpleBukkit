@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.hsun324.simplebukkit.SimpleBukkitPlugin;
@@ -39,6 +41,12 @@ public class CommandBindings
 	{
 		return commands.executeCommand(player, command, arguments);
 	}
+	public boolean executeCommand(CommandSender sender, Command command, String title, String[] arguments)
+	{
+		if(sender instanceof Player)
+			return commands.executeCommand((Player) sender, command.getLabel(), arguments);
+		return false;
+	}
 	public void clear()
 	{
 		commands.clear();
@@ -48,7 +56,7 @@ public class CommandBindings
 	{
 		String[] aliases();
 		String description() default "";
-		char[] flags();
+		String[] flags();
 		int minArgs() default 0;
 		int maxArgs() default 0;
 		String basePermission() default "";
@@ -57,16 +65,31 @@ public class CommandBindings
 
 	public class FlagList
 	{
-		protected HashMap<Character, Boolean> FlagMap = new HashMap<Character, Boolean>();
-		public void add(char flag, boolean set)
+		protected HashMap<String, List<String>> flagMap = new HashMap<String, List<String>>();
+		protected List<String> last = null;
+		protected void add(String flag, List<String> args)
 		{
-			FlagMap.put(Character.valueOf(flag), Boolean.valueOf(set));
+			flagMap.put(flag, args);
+			last = args;
 		}
-		public boolean get(char flag)
+		protected boolean addToLast(String arg)
 		{
-			if(FlagMap.containsKey(flag))
-				return FlagMap.get(flag).booleanValue();
+			if(last != null)
+			{
+				last.add(arg);
+				return true;
+			}
 			return false;
+		}
+		public boolean has(String flag)
+		{
+			return flagMap.containsKey(flag);
+		}
+		public List<String> get(String flag)
+		{
+			if(flagMap.containsKey(flag))
+				return flagMap.get(flag);
+			return null;
 		}
 	}
 
@@ -112,22 +135,61 @@ public class CommandBindings
 			return null;
 		}
 		
+		protected String[] encapsulatorTypes = new String[]{"\"", "'"};
+		protected boolean[] allowEscapes = new boolean[]{true, false};
+		
+		private boolean endsQuote(String arg, String encapsulatorType, boolean allowEscape)
+		{
+			return (!arg.endsWith("\\" + encapsulatorType) || !allowEscape) && arg.endsWith(encapsulatorType);
+		}
+		
 		protected boolean executeCommand(Player player, String command, String[] arguments)
 		{
-			FlagList flags = new FlagList();
-			List<String> argslist = new ArrayList<String>();
-			for(int i = 0; i < arguments.length; i++)
-			{
-				if(arguments[i].startsWith("-") && arguments[i].length() == 2)
-					flags.add(arguments[i].toCharArray()[1], true);
-				else
-					argslist.add(arguments[i]);
-			}
-			String[] args = argslist.toArray(new String[0]);
-			
 			Entry<CommandDeclaration, Method> entry = null;
 			if((entry = getCommand(command)) != null)
 			{
+				FlagList flags = new FlagList();
+				List<String> argslist = new ArrayList<String>();
+				for(int i = 0; i < arguments.length; i++)
+				{
+					String argument = arguments[i];
+					for(int j = 0; j < encapsulatorTypes.length; j++)
+					{
+						String encapsulatorType = encapsulatorTypes[j];
+						boolean allowEscape = allowEscapes[j];
+						if(argument.startsWith(encapsulatorType))
+						{
+							while(i + 1 < arguments.length && !endsQuote(arguments[i], encapsulatorType, allowEscape))
+								argument += " " + arguments[++i];
+							if(!endsQuote(argument, encapsulatorType, allowEscape))
+							{
+								ColoredMessageSender.sendErrorMessage(player, "Invalid Syntax: Unclosed Encapsulator");
+								return true;
+							}
+							argument = argument.substring(1, argument.length() - 1);
+							if(allowEscape)
+								argument = argument.replaceAll("\\\\" + encapsulatorType, encapsulatorType);
+							break;
+						}
+					}
+					
+					if(argument.startsWith("-") && argument.length() > 1)
+					{
+						String flag = argument.substring(1);
+						if(contains(entry.getKey().flags(), flag))
+							flags.add(flag, new ArrayList<String>());
+						else
+						{
+							ColoredMessageSender.sendErrorMessage(player, "Invalid Syntax: No Such Flag \"" + flag + "\"");
+							return true;
+						}
+					}
+					else
+						if(!flags.addToLast(argument))
+							argslist.add(argument);
+				}
+				String[] args = argslist.toArray(new String[0]);
+				
 				CommandDeclaration declaration = entry.getKey();
 				if(declaration.maxArgs() < args.length)
 				{
@@ -187,16 +249,23 @@ public class CommandBindings
 		{
 			if(declaration.description().trim().length() > 0)
 				ColoredMessageSender.sendErrorMessage(player, declaration.description());
-			String message = "/" + declaration.aliases()[0] + " ";
-			if(declaration.flags().length > 0)
-			{
-				for(char flag : declaration.flags ())
-					message += "-" + flag;
-				message += " ";
-			}
+			ColoredMessageSender.sendErrorMessage(player, getUsage(declaration));
+		}
+
+		private boolean contains(Object[] array, Object obj)
+		{
+			for(Object aobj : array)
+				if(aobj.equals(obj))
+					return true;
+			return false;
+		}
+		
+		private String getUsage(CommandDeclaration declaration)
+		{
+			String message = "/" + declaration.aliases()[0];
 			if(declaration.usage().trim().length() > 0)
-				message += declaration.usage();
-			ColoredMessageSender.sendErrorMessage(player, message);
+				message += " " + declaration.usage();
+			return message;
 		}
 	
 		public void clear()
