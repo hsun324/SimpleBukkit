@@ -59,6 +59,14 @@ public class MessageableThread extends Thread
 			}
 			return new Object[0];
 		}
+		/**
+		 * Deletes all messages.
+		 */
+		public void clearAllMessages()
+		{
+			for(List<Object> list : map.values())
+				list.clear();
+		}
 	}
 	protected final MessageHandler messageHandler = new MessageHandler();
 	public MessageableThread(String name)
@@ -97,5 +105,12 @@ public class MessageableThread extends Thread
 	public Object[] getMessages(String identifier)
 	{
 		return messageHandler.getMessages(identifier);
+	}
+	/**
+	 * A convenience method for {@link MessageHandler#clearAllMessages()}.
+	 */
+	public void clearAllMessages()
+	{
+		messageHandler.clearAllMessages();
 	}
 }
