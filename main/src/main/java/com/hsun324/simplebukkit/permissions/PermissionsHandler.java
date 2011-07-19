@@ -62,14 +62,14 @@ public class PermissionsHandler
 	public String getPrefix(Player player)
 	{
 		if(permissionHandler != null)
-			return permissionHandler.getUserPrefix(player.getWorld().getName(), player.getName());
+			return permissionHandler.getGroupRawPrefix(player.getWorld().getName(), getGroup(player));
 		return "";
 	}
 	
 	public String getSuffix(Player player)
 	{
 		if(permissionHandler != null)
-			return permissionHandler.getUserSuffix(player.getWorld().getName(), getGroup(player));
+			return permissionHandler.getGroupRawSuffix(player.getWorld().getName(), getGroup(player));
 		return "";
 	}
 

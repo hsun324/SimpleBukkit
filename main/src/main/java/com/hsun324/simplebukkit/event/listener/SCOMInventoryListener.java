@@ -36,4 +36,29 @@ public final class SCOMInventoryListener extends InventoryListener
 	{
 		EventBindings.getInstance().callEvent(event.getType(), event, priority);
 	}
+	/*
+	@Override
+	public void onInventoryChange(InventoryChangeEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
+	
+	@Override
+	public void onInventoryClick(InventoryClickEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
+	
+	@Override
+	public void onInventoryClose(InventoryCloseEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
+	
+	@Override
+	public void onInventoryOpen(InventoryOpenEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
+	*/
 }
