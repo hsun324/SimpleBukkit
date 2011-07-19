@@ -102,4 +102,22 @@ public final class SCOMBlockListener extends BlockListener
 	{
 		EventBindings.getInstance().callEvent(event.getType(), event, priority);
 	}
+	
+	@Override
+	public void onBlockFade(BlockFadeEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
+	
+	@Override
+	public void onBlockForm(BlockFormEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
+	
+	@Override
+	public void onBlockSpread(BlockSpreadEvent event)
+	{
+		EventBindings.getInstance().callEvent(event.getType(), event, priority);
+	}
 }

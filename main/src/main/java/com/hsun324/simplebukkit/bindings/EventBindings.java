@@ -201,10 +201,13 @@ public class EventBindings
 		pluginManager.registerEvent(Type.BLOCK_CANBUILD, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.BLOCK_DAMAGE, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.BLOCK_DISPENSE, SCOMBlockListener.getInstance(priority), priority, plugin);
+		pluginManager.registerEvent(Type.BLOCK_FADE, SCOMBlockListener.getInstance(priority), priority, plugin);
+		pluginManager.registerEvent(Type.BLOCK_FORM, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.BLOCK_FROMTO, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.BLOCK_IGNITE, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.BLOCK_PHYSICS, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.BLOCK_PLACE, SCOMBlockListener.getInstance(priority), priority, plugin);
+		pluginManager.registerEvent(Type.BLOCK_SPREAD, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.LEAVES_DECAY, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.REDSTONE_CHANGE, SCOMBlockListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.SNOW_FORM, SCOMBlockListener.getInstance(priority), priority, plugin);
@@ -239,6 +242,10 @@ public class EventBindings
 		
 		pluginManager.registerEvent(Type.FURNACE_BURN, SCOMInventoryListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.FURNACE_SMELT, SCOMInventoryListener.getInstance(priority), priority, plugin);
+		//pluginManager.registerEvent(Type.INVENTORY_CHANGE, SCOMInventoryListener.getInstance(priority), priority, plugin);
+		//pluginManager.registerEvent(Type.INVENTORY_CLICK, SCOMInventoryListener.getInstance(priority), priority, plugin);
+		//pluginManager.registerEvent(Type.INVENTORY_CLOSE, SCOMInventoryListener.getInstance(priority), priority, plugin);
+		//pluginManager.registerEvent(Type.INVENTORY_OPEN, SCOMInventoryListener.getInstance(priority), priority, plugin);
 		
 		pluginManager.registerEvent(Type.LIGHTNING_STRIKE, SCOMWeatherListener.getInstance(priority), priority, plugin);
 		pluginManager.registerEvent(Type.THUNDER_CHANGE, SCOMWeatherListener.getInstance(priority), priority, plugin);
