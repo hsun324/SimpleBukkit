@@ -61,6 +61,7 @@ public class CommandBindings
 		int maxArgs() default 0;
 		String basePermission() default "";
 		String usage() default "";
+		boolean enableConsole() default false;
 	}
 
 	public class FlagList
